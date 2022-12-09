@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SampleserviceService } from '../sampleservice.service';
 
 @Component({
@@ -9,30 +9,91 @@ import { SampleserviceService } from '../sampleservice.service';
   styleUrls: ['./shopping.component.css']
 })
 export class ShoppingComponent implements OnInit {
+  
+cards:any
+  
 
-  cards: any
-  items:any
-  constructor(private serv: SampleserviceService, private router: Router) { }
+
+  constructor(private serv: SampleserviceService, private router:Router) { }
+
   ngOnInit(): void {
-    console.log(';;;;;;;;;;;;',this.router.url)
-    if(this.router.url.includes("shopping")){
-      this.serv.getProductDetails().pipe(map(((details:any)=>{
-        return details.filter(((key:any)=>key.id<7))
-      }))).subscribe(clothes => {
-        this.cards = clothes
-      })
+     this.serv.getProductDetails().subscribe(details=>{
+      this.cards=details
+      // console.log(this.cards);
+     
       
-    }else {
-      this.serv.getProductDetails().pipe(map(((details:any)=>{
-        return details.filter(((key:any)=>key.id>=7))
-      }))).subscribe(groceryItem => {
-        this.items = groceryItem
-      })
-    }
+     })
+
+  
+    
+    
   }
+
+
+  out(){
+    this.router.navigate(['/login'])
+    localStorage.clear()
+  }
+  home(){
+    this.router.navigate(['/dashboard'])
+  }
+shop(){
+  this.router.navigate(['/shopping'])
 }
 
-// this.dataSource = this.serv.dataEvent$.pipe(map((n: any) => {
-//   return n.filter((x: any) => x.Wish)
+wish(){
+  this.router.navigate(['/wishlist'])
+}
 
-// }))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // ngOnInit(): void {
+  //     this.serv.getProductDetails().subscribe(d=>{
+  //       // console.log(d);
+  //       this.f=d
+  //       console.log(this.f)
+
+
+  //        this.cards=[
+  //         {img:this.f[0].img, 
+  //           ItemName:this.f[0].ItemName, 
+  //           Cost:this.f[0].Cost, 
+  //           MaterialComposition:this.f[0].ProductDetails.MaterialComposition, 
+  //           Style:this.f[0].ProductDetails.Style, 
+  //           Pattern:this.f[0].ProductDetails.Pattern },
+
+  //         {img:this.f[1].img, 
+  //           ItemName:this.f[1].ItemName, 
+  //           Cost:this.f[1].Cost, 
+  //           MaterialComposition:this.f[1].ProductDetails.MaterialComposition, 
+  //           Style:this.f[1].ProductDetails.Style, 
+  //           Pattern:this.f[1].ProductDetails.Pattern },
+
+  //           {img:this.f[2].img, 
+  //             ItemName:this.f[2].ItemName, 
+  //             Cost:this.f[2].Cost, 
+  //             MaterialComposition:this.f[2].ProductDetails.MaterialComposition, 
+  //             Style:this.f[2].ProductDetails.Style, 
+  //             Pattern:this.f[2].ProductDetails.Pattern }
+
+  //       ]
+
+  //     })
+  //   }
+
+}
