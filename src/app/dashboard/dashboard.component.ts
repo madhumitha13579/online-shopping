@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable, of ,Subject} from 'rxjs';
+import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { AddcustomerComponent } from '../addcustomer/addcustomer.component';
 import { SampleserviceService } from '../sampleservice.service';
 
@@ -23,33 +23,46 @@ export interface PeriodicElement {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
-  
-  displayedColumns: string[] = ['position', 'itemname', 'cost', 'shippingAddress', 'menu','wish'];
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  displayedColumns: string[] = ['position', 'itemname', 'cost', 'shippingAddress', 'menu', 'wish'];
   dataSource: Observable<any> = of([{}]);
+<<<<<<< Updated upstream
  
   
 
   constructor(private serv: SampleserviceService, private router: Router, private dialog: MatDialog,
     ) { }
+=======
+  kill$ = new Subject<boolean>
+
+
+  constructor(private serv: SampleserviceService, private router: Router, private dialog: MatDialog) { }
+>>>>>>> Stashed changes
   ngOnInit() {
     this.serv.getCustomer()
     this.dataSource = this.serv.dataEvent$
     
     
   }
+<<<<<<< Updated upstream
   // edit(){
   //   this.serv.CreateCustomer({}).subscribe(t=>{console.log('...',t)})
   //   this.dialog.open(AddcustomerComponent)
   // }
   edit(element:any) {
+=======
+
+  edit(element: any) {
+>>>>>>> Stashed changes
     const dialogRef = this.dialog.open(AddcustomerComponent,
       {
-        data:{
+        data: {
           ...element,
-          showeditbutton:true
+          showeditbutton: true
         }
       });
+<<<<<<< Updated upstream
     dialogRef.afterClosed().subscribe((t: any) => { console.log('output', `${t}`) })
   }
 
@@ -57,8 +70,21 @@ export class DashboardComponent implements OnInit {
     this.serv.deleteCustomer(id).subscribe(f => {
       
       window.location.reload(); console.log('...', f)
+=======
+    dialogRef.afterClosed().pipe(takeUntil(this.kill$)).subscribe(() => {
+      window.location.reload()
     })
   }
+
+  deleteRow(id: any) {
+    this.serv.deleteCustomer(id).pipe(takeUntil(this.kill$)).subscribe(() => {
+      window.location.reload()
+>>>>>>> Stashed changes
+    })
+
+
+  }
+<<<<<<< Updated upstream
   // edit(){
   //   this.serv.CreateCustomer(
   //     {
@@ -97,6 +123,19 @@ add_wish(d:any){
     
   })
 }
+=======
+
+  ngOnDestroy(): void {
+    this.kill$.next(true)
+    this.kill$.complete()
+  }
+  nextpage(id: any) {
+    this.router.navigate(['/secpage', id])
+  }
+  add_wish(d: any) {
+    this.serv.update_wishlist(d).subscribe()
+  }
+>>>>>>> Stashed changes
 
 
 

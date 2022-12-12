@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { filter, map, Observable, of, Subject, takeUntil } from 'rxjs';
 import { SampleserviceService } from '../sampleservice.service';
 
 @Component({
@@ -8,42 +8,54 @@ import { SampleserviceService } from '../sampleservice.service';
   templateUrl: './shopping.component.html',
   styleUrls: ['./shopping.component.css']
 })
-export class ShoppingComponent implements OnInit {
-  
-cards:any
-  
+export class ShoppingComponent implements OnInit, OnDestroy {
 
+  cards: any
+  // = [{
+  //   ItemName: 'ghhh',
+  //   Cost: '111'
+  // }]
+  items: any;
+  onDestroy$ = new Subject<boolean>
+  currentRoute: any;
 
-  constructor(private serv: SampleserviceService, private router:Router) { }
+  constructor(private serv: SampleserviceService, private router: Router) { }
+
 
   ngOnInit(): void {
+<<<<<<< Updated upstream
      this.serv.getProductDetails().subscribe(d=>{
       this.cards=d
       // console.log(this.cards);
      
       
      })
+=======
+    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe((currentRoute: any) => {
+      console.log('....', currentRoute)
+>>>>>>> Stashed changes
 
-  
-    
-    
-  }
+      if (currentRoute.url.includes('clothes')) {
+        this.serv.getProductDetails().pipe(takeUntil(this.onDestroy$)).subscribe(details => {
+          this.cards = details
+          console.log('----cards---', this.cards)
 
+        })
+      } else if (currentRoute.url.includes('grocery')) {
+        this.serv.getGroceryDetails().pipe(takeUntil(this.onDestroy$)).subscribe(details => {
+          this.items = details
+          console.log('----items---', this.items)
 
-  out(){
-    this.router.navigate(['/login'])
-    localStorage.clear()
+        })
+      }
+    })
   }
-  home(){
-    this.router.navigate(['/dashboard'])
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
-shop(){
-  this.router.navigate(['/shopping'])
 }
 
-wish(){
-  this.router.navigate(['/wishlist'])
-}
 
 
 
@@ -62,38 +74,16 @@ wish(){
 
 
 
-  // ngOnInit(): void {
-  //     this.serv.getProductDetails().subscribe(d=>{
-  //       // console.log(d);
-  //       this.f=d
-  //       console.log(this.f)
 
 
-  //        this.cards=[
-  //         {img:this.f[0].img, 
-  //           ItemName:this.f[0].ItemName, 
-  //           Cost:this.f[0].Cost, 
-  //           MaterialComposition:this.f[0].ProductDetails.MaterialComposition, 
-  //           Style:this.f[0].ProductDetails.Style, 
-  //           Pattern:this.f[0].ProductDetails.Pattern },
 
-  //         {img:this.f[1].img, 
-  //           ItemName:this.f[1].ItemName, 
-  //           Cost:this.f[1].Cost, 
-  //           MaterialComposition:this.f[1].ProductDetails.MaterialComposition, 
-  //           Style:this.f[1].ProductDetails.Style, 
-  //           Pattern:this.f[1].ProductDetails.Pattern },
 
-  //           {img:this.f[2].img, 
-  //             ItemName:this.f[2].ItemName, 
-  //             Cost:this.f[2].Cost, 
-  //             MaterialComposition:this.f[2].ProductDetails.MaterialComposition, 
-  //             Style:this.f[2].ProductDetails.Style, 
-  //             Pattern:this.f[2].ProductDetails.Pattern }
 
-  //       ]
 
-  //     })
-  //   }
 
-}
+
+
+
+
+
+

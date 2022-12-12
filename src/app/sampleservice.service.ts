@@ -19,6 +19,7 @@ export class SampleserviceService {
 
   API_URL = "http://localhost:3000/customer"
   shoppingUrl = " http://localhost:3000/shopping"
+  groceryUrl=" http://localhost:3000/groceries"
   data: any;
 
 
@@ -79,5 +80,12 @@ export class SampleserviceService {
   searchItem(value: any) {
     this.dataSubject$.next(this.data.filter((n: any) => n.itemname.toLowerCase().includes(value.toLowerCase())))
   }
+
+
+  //---------------------------------------groceries-----------------------------------------------------------------------------
+getGroceryDetails(){
+  return this.http.get(this.groceryUrl)
+}
+
 
 }

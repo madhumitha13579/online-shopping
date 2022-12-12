@@ -1,19 +1,31 @@
 
 
+<<<<<<< Updated upstream
 
     <mat-card class="example-card"  *ngFor= "let card of cards">
         <div >
         <img  src="{{card.img}}">
+=======
+<mat-card class="example-card" *ngFor="let card of cards">
+    <div>
+        <img mat-card-xl-image src="{{card?.img}}">
+>>>>>>> Stashed changes
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p><b>ItemName</b>: {{card.ItemName}}</p>
+            <p><b>ItemName</b>: {{card?.ItemName}}</p>
             <p> <b>Cost</b>: {{card.Cost}}</p>
             <p><b>Product Details</b>:</p>
+<<<<<<< Updated upstream
             <p><b>Material Composition</b><br>{{card.ProductDetails.MaterialComposition}}</p>
             <p><b>Style</b><br>{{card.ProductDetails.Style}}</p>
             <p><b>Pattern</b><br>{{card.ProductDetails.Pattern}}</p>
 
         
+=======
+            <p><b>Material Composition</b><br>{{card?.ProductDetails?.MaterialComposition}}</p>
+            <p><b>Style</b><br>{{card?.ProductDetails?.Style}}</p>
+            <p><b>Pattern</b><br>{{card?.ProductDetails?.Pattern}}</p>
+>>>>>>> Stashed changes
         </mat-card-content>
     </div>
     </mat-card>

@@ -69,6 +69,7 @@ this.country.valueChanges.subscribe((d:any)=>{
 })
   }
 
+<<<<<<< Updated upstream
   form1(){
     console.log(this.firstFormGroup.value);
     //this.firstFormGroup.value
@@ -77,6 +78,16 @@ this.country.valueChanges.subscribe((d:any)=>{
   form2(){
     console.log(this.secondFormGroup.value);
     //this.secondFormGroup.value
+=======
+  form1() {
+    this.firstFormGroup.value
+
+  }
+
+  form2() {
+    this.secondFormGroup.value
+
+>>>>>>> Stashed changes
   }
   form3(){
     console.log(this.thirdFormGroup.value);
@@ -85,12 +96,23 @@ this.country.valueChanges.subscribe((d:any)=>{
   form4(){
     console.log(this.fourthFormGroup.value);
   }
+<<<<<<< Updated upstream
   form5(){
     console.log(this.fifthFormGroup.value);
     this.service.CreateCustomer({...this.secondFormGroup.value,...this.thirdFormGroup.value,...this.fourthFormGroup.value,
       id:this.secondFormGroup.value['position']}).subscribe(a => {
      window.location.reload();
       console.log('----', a);
+=======
+  form5() {
+    this.fifthFormGroup.value
+    this.service.CreateCustomer({
+      ...this.secondFormGroup.value, ...this.thirdFormGroup.value, ...this.fourthFormGroup.value,
+      id: this.secondFormGroup.value['position']
+    }).subscribe(() => {
+      window.location.reload();
+
+>>>>>>> Stashed changes
     })
   this.dialog.closeAll();
   

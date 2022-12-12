@@ -10,10 +10,16 @@ import { Router } from '@angular/router';
 export class FrontpageComponent implements OnInit {
 
 constructor(private router: Router){}
+<<<<<<< Updated upstream
 ngOnInit() {
   
 }
 home(){
   this.router.navigate(['/dashboard'])
 }
+=======
+ngOnInit() {}
+
+>>>>>>> Stashed changes
 }
+

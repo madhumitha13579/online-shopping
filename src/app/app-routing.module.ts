@@ -15,7 +15,17 @@ const routes: Routes = [
   {path:'secpage/:id', component:SecpageComponent},
   {path:'dashboard', canActivate:[Gaurd], component:DashboardComponent},
   {path:'login',component:LoginComponent},
+<<<<<<< Updated upstream
   {path:'shopping', canActivate:[Gaurd],component:ShoppingComponent},
+=======
+
+  {path:'shopping',canActivate:[Gaurd],component:ShoppingComponent,
+   children:[
+    {path:'grocery',canActivate:[Gaurd],component:ShoppingComponent},
+    {path:'clothes',canActivate:[Gaurd], component:ShoppingComponent}
+  ]},
+
+>>>>>>> Stashed changes
   {path:'wishlist', canActivate:[Gaurd],component:WishlistComponent},
  
 

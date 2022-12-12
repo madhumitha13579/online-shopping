@@ -38,6 +38,7 @@ import { StyleDirective } from './style.directive';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,8 +53,7 @@ import { StyleDirective } from './style.directive';
     ShoppingComponent,
     WishlistComponent,
     StyleDirective,
-  
-  ],
+],
   imports: [
     BrowserModule,
     AppRoutingModule,

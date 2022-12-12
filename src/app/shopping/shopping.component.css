@@ -1,13 +1,9 @@
 .example-card {
     max-width: 400px;
+    float: left;
   }
   
 b{
     font-size: 15px;
 }
 
-/* .space{
-    padding:15px;
-   
-
-} */
