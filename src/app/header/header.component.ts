@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of, windowWhen } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, of, Subject, takeUntil, windowWhen } from 'rxjs';
 
 import { SampleserviceService } from '../sampleservice.service';
 import { AddcustomerComponent } from '../addcustomer/addcustomer.component';
@@ -20,34 +20,39 @@ export interface PeriodicElement {
   styleUrls: ['./header.component.css']
 })
 
-export class HeaderComponent implements OnInit {
-a:any
-name:any
-f:any
-l:any
-localhost: any;
-  constructor(private dialog: MatDialog, private router: Router, private serv:SampleserviceService){}
-  ngOnInit(){
-    this.a =localStorage.getItem('email')
-    this.name=this.a.split('.').join(' ').split('@',1).join(' ')
-    this.f=((this.name.split(' ',1))[0])[0]  
-    this.l=((this.name.split(' ',2))[1])[0]
+export class HeaderComponent implements OnInit, OnDestroy {
+  userEmail: any
+  userName: any
+  firstName: any
+  lastName: any
+  localhost: any;
+  onDestroy$ = new Subject<boolean>
+  constructor(private dialog: MatDialog, private router: Router, private serv: SampleserviceService) { }
+  ngOnInit() {
+    this.userEmail = localStorage.getItem('email')
+    this.userName = this.userEmail.split('.').join(' ').split('@', 1).join(' ')
+    this.firstName = ((this.userName.split(' ', 1))[0])[0]
+    this.lastName = ((this.userName.split(' ', 2))[1])[0]
   }
-  addCustomer(){
+  addCustomer() {
     const dialogRef = this.dialog.open(StepperComponent);
-    dialogRef.afterClosed().subscribe(details=>{
-      window.location.reload();
-      })
-  }
-  out(){
-    // this.router.navigate(['/login'])
-    localStorage.clear()
-    
-  }
-  onSearch(value:any){
-  this.serv.searchItem(value)
-}
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      window.location.reload()
+    })
 
+
+  }
+  out() {
+    localStorage.clear()
+  }
+  onSearch(value: any) {
+    this.serv.searchItem(value)
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
 
 
 }

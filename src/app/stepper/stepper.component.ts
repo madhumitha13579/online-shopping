@@ -69,12 +69,12 @@ export class StepperComponent implements OnInit {
 
   form1() {
     this.firstFormGroup.value
-    //this.firstFormGroup.value
+
   }
 
   form2() {
     this.secondFormGroup.value
-    //this.secondFormGroup.value
+
   }
   form3() {
     this.thirdFormGroup.value
@@ -88,7 +88,7 @@ export class StepperComponent implements OnInit {
     this.service.CreateCustomer({
       ...this.secondFormGroup.value, ...this.thirdFormGroup.value, ...this.fourthFormGroup.value,
       id: this.secondFormGroup.value['position']
-    }).subscribe(details => {
+    }).subscribe(() => {
       window.location.reload();
 
     })

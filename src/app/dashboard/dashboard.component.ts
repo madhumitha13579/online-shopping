@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable, of ,Subject} from 'rxjs';
+import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { AddcustomerComponent } from '../addcustomer/addcustomer.component';
 import { SampleserviceService } from '../sampleservice.service';
 
@@ -23,52 +23,50 @@ export interface PeriodicElement {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
-  
-  displayedColumns: string[] = ['position', 'itemname', 'cost', 'shippingAddress', 'menu','wish'];
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  displayedColumns: string[] = ['position', 'itemname', 'cost', 'shippingAddress', 'menu', 'wish'];
   dataSource: Observable<any> = of([{}]);
-  
-  constructor(private serv: SampleserviceService, private router: Router, private dialog: MatDialog){}
+  kill$ = new Subject<boolean>
+
+
+  constructor(private serv: SampleserviceService, private router: Router, private dialog: MatDialog) { }
   ngOnInit() {
     this.serv.getCustomer()
     this.dataSource = this.serv.dataEvent$
   }
-  
-  edit(element:any) {
+
+  edit(element: any) {
     const dialogRef = this.dialog.open(AddcustomerComponent,
       {
-        data:{
+        data: {
           ...element,
-          showeditbutton:true
+          showeditbutton: true
         }
       });
-    dialogRef.afterClosed().subscribe((details: any) => ( `output, ${details}`) )
+    dialogRef.afterClosed().pipe(takeUntil(this.kill$)).subscribe(() => {
+      window.location.reload()
+    })
   }
 
   deleteRow(id: any) {
-    this.serv.deleteCustomer(id).subscribe(details => {
-      
-      window.location.reload(); 
+    this.serv.deleteCustomer(id).pipe(takeUntil(this.kill$)).subscribe(() => {
+      window.location.reload()
     })
+
+
   }
-  
 
-
-
-
-  nextpage(id:any){
-    this.router.navigate(['/secpage',id])
+  ngOnDestroy(): void {
+    this.kill$.next(true)
+    this.kill$.complete()
   }
- 
-
-add_wish(d:any){
-  this.serv.update_wishlist(d).subscribe(x=>{
-    
-    
-    //window.location.reload()
-    
-  })
-}
+  nextpage(id: any) {
+    this.router.navigate(['/secpage', id])
+  }
+  add_wish(d: any) {
+    this.serv.update_wishlist(d).subscribe()
+  }
 
 
 

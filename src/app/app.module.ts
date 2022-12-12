@@ -39,6 +39,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,8 +54,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     ShoppingComponent,
     WishlistComponent,
     StyleDirective,
-  
-  ],
+],
   imports: [
     BrowserModule,
     AppRoutingModule,
