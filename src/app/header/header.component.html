@@ -1,53 +1,48 @@
 <div class="head">
-    <!-- <div class="example-container" > -->
+
     <button class="bar" mat-icon-button (click)="snav.toggle()">
         <mat-icon>menu</mat-icon>
     </button>
-    <img src="https://media-exp1.licdn.com/dms/image/C510BAQHJRGz9A4vq6A/company-logo_200_200/0/1519912579389?e=2147483647&v=beta&t=y7dOj2Zz8ccdcZFiUGF19RHQG3dnvhH_56IY9dtSano"
-        alt="">
+    <img
+        src="https://media-exp1.licdn.com/dms/image/C510BAQHJRGz9A4vq6A/company-logo_200_200/0/1519912579389?e=2147483647&v=beta&t=y7dOj2Zz8ccdcZFiUGF19RHQG3dnvhH_56IY9dtSano">
     <h1 sample>Muraai Online Shopping</h1>
-    <!-- <form > -->
-        <mat-form-field class="sbtn">
-            
-            <input matInput name="search"  type="search" placeholder="search" #search>
-        </mat-form-field><br>
-        <button type="submit"  class="s_btn "(click)="onSearch(search.value)">search</button>
-    <!-- </form> -->
-    <button mat-icon-button [matMenuTriggerFor]="menu" id="circle">{{f }}{{l}}</button>
+
+    <mat-form-field class="sbtn">
+        <input matInput name="search" type="search" placeholder="search" #search>
+    </mat-form-field><br>
+    <button type="submit" class="s_btn " (click)="onSearch(search.value)">search</button>
+    <button mat-icon-button [matMenuTriggerFor]="menu" id="circle">{{firstName }}{{lastName}}</button>
     <mat-menu #menu="matMenu" class="box">
         <mat-card class="example-card">
             <mat-card-header>
-                <mat-card-title>{{name}}</mat-card-title><br>
+                <mat-card-title>{{userName}}</mat-card-title><br>
             </mat-card-header>
             <mat-divider></mat-divider><br>
             <mat-card-content>
-                <p>{{a}}</p>
+                <p>{{userEmail}}</p>
             </mat-card-content>
-
         </mat-card>
     </mat-menu>
-
-    <button id="btn" (click)="addCustomer()"  >Add</button>
+    <button id="btn" (click)="addCustomer()">Add</button>
 </div>
 <mat-sidenav-container class="example-sidenav-container">
     <mat-sidenav class="sidenav" #snav mode="side">
         <mat-nav-list>
-            <a mat-list-item routerLink="/dashboard" (click)="snav.toggle()" >Order</a><br>
-            <a mat-list-item routerLink="/shopping" (click)="snav.toggle()" >Shopping</a><br>
+            <a mat-list-item routerLink="/dashboard"> Order </a>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Shopping</mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a mat-list-item routerLink="/shopping/clothes" (click)="snav.toggle()">Clothes</a>
+                    <a mat-list-item routerLink="/shopping/grocery" (click)="snav.toggle()">Groceries</a><br>
+                </mat-expansion-panel>
+            </mat-accordion>
             <a mat-list-item routerLink="/wishlist" (click)="snav.toggle()">Wishlist</a><br>
-            <a mat-list-item routerLink="/login" (click)="out()">Logout</a>
+            <a mat-list-item routerLink="/login" (click)="snav.toggle()" (click)="out()">Logout</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>
-
-
-<!-- </div> -->
-
-
-
-
-
-<!-- (click)="userinformation()" -->

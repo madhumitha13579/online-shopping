@@ -9,65 +9,39 @@ import { Country, State, City } from 'country-state-city';
   providedIn: 'root'
 })
 export class SampleserviceService {
-
-
-
   private dataSubject$: Subject<object> = new Subject();
   dataEvent$ = this.dataSubject$.asObservable();
-
-
-
   API_URL = "http://localhost:3000/customer"
   shoppingUrl = " http://localhost:3000/shopping"
   data: any;
-
-
-
   constructor(private http: HttpClient) { }
-
-
   getCustomer() {
-    this.http.get(this.API_URL).subscribe(val => {
-      this.dataSubject$.next(val);
-      this.data = val
+    this.http.get(this.API_URL).subscribe(value => {
+      this.dataSubject$.next(value);
+      this.data = value
     })
-
   }
-
-
-  // getSearch(){
-  //   this.http.get(this.API_URL).subscribe(val=>{
-  //     this.dataSubject$.next(val);
-  //     this.data=val
-  //   })
-  // }
   CreateCustomer(data: any): Observable<any> {
-    console.log('-----data', data);
     return this.http.post(this.API_URL, data)
-
   }
   editCustomer(data: any) {
     return this.http.put(`${this.API_URL}/${data.position}`, data)
   }
-
   deleteCustomer(id: any): Observable<any> {
     return this.http.delete(`${this.API_URL}/${id}`)
-
   }
   getRowDetails(id: any) {
-    console.log('.....', id)
     return this.http.get(`${this.API_URL}/${id}`)
   }
   login(data: any): Observable<any> {
     return this.http.post('https://reqres.in/api/login', data)
   }
 
-  //--------------------------------------------------------------------------------------------
+  //-------------------------------------shopping data.json-------------------------------------------------------
 
   getProductDetails() {
     return this.http.get(this.shoppingUrl)
   }
-
   update_wishlist(data: any) {
     const newdata = {
       ...data,
@@ -77,7 +51,7 @@ export class SampleserviceService {
 
   }
   searchItem(value: any) {
-    this.dataSubject$.next(this.data.filter((n: any) => n.itemname.toLowerCase().includes(value.toLowerCase())))
+    this.dataSubject$.next(this.data.filter((details: any) => details.itemname.toLowerCase().includes(value.toLowerCase())))
   }
 
 }

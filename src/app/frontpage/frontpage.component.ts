@@ -10,9 +10,7 @@ import { Router } from '@angular/router';
 export class FrontpageComponent implements OnInit {
 
 constructor(private router: Router){}
-ngOnInit() {
-  
-}
+ngOnInit() {}
 home(){
   this.router.navigate(['/dashboard'])
 }

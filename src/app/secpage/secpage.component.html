@@ -1,20 +1,5 @@
 <div>
-    
-    <mat-drawer-container class="example-container" autosize >
-        <mat-drawer #drawer class="example-sidenav" mode="side" >
-          <button  class="btn1" (click)="home()">Order</button> <br>
-          <button  class="btn1" (click)="shop()">Shopping</button> <br>
-          <button  class="btn1" (click)="wish()">Wishlist</button> <br>
-          <button  class="btn1" (click)="out()">Logout</button> <br><br>&nbsp;
-          
-        </mat-drawer>
-        
-        <div class="example-sidenav-content">
-           <button  mat-button  (click)="drawer.toggle()"> <mat-icon>menu</mat-icon></button>
-        </div>
-
     <mat-card>
-
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTeFzGmgiFo6fOfKS4W00Dic1BQWeCIgiDOA&usqp=CAU"
             alt="">
         <!-- <mat-card-content> -->
@@ -25,5 +10,4 @@
 
         <app-details [value]="value" (updatedetails)="edit($event)" (deletedetails)="deleteRow($event)"></app-details>
     </mat-card>
-    </mat-drawer-container>
 </div>

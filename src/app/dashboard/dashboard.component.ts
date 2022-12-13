@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable, of ,Subject} from 'rxjs';
+import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { AddcustomerComponent } from '../addcustomer/addcustomer.component';
 import { SampleserviceService } from '../sampleservice.service';
 
@@ -23,80 +23,50 @@ export interface PeriodicElement {
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
-  
-  displayedColumns: string[] = ['position', 'itemname', 'cost', 'shippingAddress', 'menu','wish'];
-  dataSource: Observable<any> = of([{}]);
- 
-  
+export class DashboardComponent implements OnInit, OnDestroy {
 
-  constructor(private serv: SampleserviceService, private router: Router, private dialog: MatDialog,
-    ) { }
+  displayedColumns: string[] = ['position', 'itemname', 'cost', 'shippingAddress', 'menu', 'wish'];
+  dataSource: Observable<any> = of([{}]);
+  kill$ = new Subject<boolean>
+
+
+  constructor(private serv: SampleserviceService, private router: Router, private dialog: MatDialog) { }
   ngOnInit() {
     this.serv.getCustomer()
     this.dataSource = this.serv.dataEvent$
-    
-    
   }
-  // edit(){
-  //   this.serv.CreateCustomer({}).subscribe(t=>{console.log('...',t)})
-  //   this.dialog.open(AddcustomerComponent)
-  // }
-  edit(element:any) {
+
+  edit(element: any) {
     const dialogRef = this.dialog.open(AddcustomerComponent,
       {
-        data:{
+        data: {
           ...element,
-          showeditbutton:true
+          showeditbutton: true
         }
       });
-    dialogRef.afterClosed().subscribe((t: any) => { console.log('output', `${t}`) })
+    dialogRef.afterClosed().pipe(takeUntil(this.kill$)).subscribe(() => {
+      window.location.reload()
+    })
   }
 
   deleteRow(id: any) {
-    this.serv.deleteCustomer(id).subscribe(f => {
-      
-      window.location.reload(); console.log('...', f)
+    this.serv.deleteCustomer(id).pipe(takeUntil(this.kill$)).subscribe(() => {
+      window.location.reload()
     })
+
+
   }
-  // edit(){
-  //   this.serv.CreateCustomer(
-  //     {
-  //       id:676,
-  //       position: 48,
-  //       itemname: "happy",
-  //       cost: 78000,
-  //       shippingAddress:"HSR Layout"
-  //     }
-  //   ).subscribe(d=>{console.log('----',d)})
 
-  // }
-  // delete(){
-  //   this.serv.deleteCustomer(
-  //     {
-  //       id: 1,
-  //       position: 1,
-  //       itemname: "lahenga",
-  //       cost: 4000,
-  //       shippingAddress: "HSR Layout"
-  //     }
-  //   ).subscribe(d=>{console.log('----',d)})
-  // }
-
-
-  nextpage(id:any){
-    this.router.navigate(['/secpage',id])
+  ngOnDestroy(): void {
+    this.kill$.next(true)
+    this.kill$.complete()
   }
- 
-
-add_wish(d:any){
-  this.serv.update_wishlist(d).subscribe(x=>{
-    
-    console.log('=============',x);
-    //window.location.reload()
-    
-  })
-}
+  nextpage(id: any) {
+    this.router.navigate(['/secpage', id])
+  }
+  add_wish(d: any) {
+    this.serv.update_wishlist(d).subscribe()
+  }
 
 
 

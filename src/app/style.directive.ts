@@ -5,17 +5,13 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 })
 export class StyleDirective {
 
-  constructor(private element:ElementRef) { }
+  constructor(private element:ElementRef<any>) {}
   
   @HostListener('mouseenter')mouseEnterFunc(){
-    console.log(this.element.nativeElement);
-    
     this.element.nativeElement.style.color='orange';
-    this.element.nativeElement.style['font-size']='smaller'
+    this.element.nativeElement.style['font-weight']='bold'
   }
   @HostListener('mouseleave')mouseLeaveFunc(){
-    console.log(this.element.nativeElement);
-    
     this.element.nativeElement.style.color='';
     this.element.nativeElement.style['font-size']='xx-large'
   }

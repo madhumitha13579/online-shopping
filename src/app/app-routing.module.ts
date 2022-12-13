@@ -15,8 +15,11 @@ const routes: Routes = [
   {path:'secpage/:id', component:SecpageComponent},
   {path:'dashboard', canActivate:[Gaurd], component:DashboardComponent},
   {path:'login',component:LoginComponent},
-  {path:'shopping', canActivate:[Gaurd],component:ShoppingComponent},
+  {path:'shopping', canActivate:[Gaurd],
+  component:ShoppingComponent,
+  children:[{path:'grocery',component:ShoppingComponent}]},
   {path:'wishlist', canActivate:[Gaurd],component:WishlistComponent},
+  
  
 
 ];
