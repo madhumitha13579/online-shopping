@@ -1,34 +1,27 @@
-<mat-card class="example-card" *ngFor="let card of cards">
+<mat-card class="example-card" *ngFor="let card of cards |async">
     <div>
-        <img src="{{card.img}}">
+        <img mat-card-xl-image src="{{card?.img}}">
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p><b>ItemName</b>: {{card.ItemName}}</p>
+            <p><b>ItemName</b>: {{card?.ItemName}}</p>
             <p> <b>Cost</b>: {{card.Cost}}</p>
             <p><b>Product Details</b>:</p>
-            <p><b>Material Composition</b><br>{{card.ProductDetails.MaterialComposition}}</p>
-            <p><b>Style</b><br>{{card.ProductDetails.Style}}</p>
-            <p><b>Pattern</b><br>{{card.ProductDetails.Pattern}}</p>
-
-
+            <p><b>Material Composition</b><br>{{card?.MaterialComposition}}</p>
+            <p><b>Style</b><br>{{card?.Style}}</p>
+            <p><b>Pattern</b><br>{{card?.Pattern}}</p>
         </mat-card-content>
     </div>
 </mat-card>
-<mat-card class="example-card" *ngFor="let item of items">
+
+<mat-card class="example-card" *ngFor="let item of items |async">
     <div>
-        <img src="{{item.img}}">
+        <img mat-card-xl-image src="{{item?.img}}">
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p><b>ItemName</b>: {{item.ItemName}}</p>
+            <p><b>ItemName</b>: {{item?.ItemName}}</p>
             <p> <b>Cost</b>: {{item.Cost}}</p>
-            
 
 
         </mat-card-content>
     </div>
 </mat-card>
-
-
-
-
-

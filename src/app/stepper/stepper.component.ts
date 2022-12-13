@@ -5,19 +5,6 @@ import { Country, State, City } from 'country-state-city';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
-// interface state {
-//   value: string;
-
-// }
-
-// interface country {
-//   name: string;
-
-// }
-// interface district {
-//   value2: string;
-
-//}
 
 
 @Component({
@@ -52,19 +39,20 @@ export class StepperComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private service: SampleserviceService,
     public dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    this.countries = Country.getAllCountries()
+ ngOnInit(): void {
+   this.countries=Country.getAllCountries()
+    
+this.fifthFormGroup=new FormGroup({
+  country:this.country,
+  state:this.state
 
-    this.fifthFormGroup = new FormGroup({
-      country: this.country,
-      state: this.state
-    })
+})
 
-    this.country.valueChanges.subscribe((details: any) => {
-      this.states = State.getStatesOfCountry(details.isoCode);
+this.country.valueChanges.subscribe((d:any)=>{
+  this.states=State.getStatesOfCountry(d.isoCode)
+  
 
-
-    })
+})
   }
 
   form1() {
@@ -76,11 +64,11 @@ export class StepperComponent implements OnInit {
     this.secondFormGroup.value
 
   }
-  form3() {
+  form3(){
     this.thirdFormGroup.value
   }
 
-  form4() {
+  form4(){
     this.fourthFormGroup.value
   }
   form5() {
@@ -92,8 +80,14 @@ export class StepperComponent implements OnInit {
       window.location.reload();
 
     })
-    this.dialog.closeAll();
 
+    this.country.valueChanges.subscribe((details: any) => {
+      this.states = State.getStatesOfCountry(details.isoCode);
+
+
+    })
   }
+
+ 
 
 }

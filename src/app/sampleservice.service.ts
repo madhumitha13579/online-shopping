@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Country, State, City } from 'country-state-city';
+import { customer,  shopping } from './model';
 
 
 
@@ -9,16 +10,23 @@ import { Country, State, City } from 'country-state-city';
   providedIn: 'root'
 })
 export class SampleserviceService {
-  private dataSubject$: Subject<object> = new Subject();
+
+
+
+  private dataSubject$: Subject<customer[]> = new Subject();
   dataEvent$ = this.dataSubject$.asObservable();
   API_URL = "http://localhost:3000/customer"
   shoppingUrl = " http://localhost:3000/shopping"
-  data: any;
+  groceryUrl=" http://localhost:3000/groceries"
+  data: customer[]=[];
+
+
+
   constructor(private http: HttpClient) { }
   getCustomer() {
-    this.http.get(this.API_URL).subscribe(value => {
-      this.dataSubject$.next(value);
-      this.data = value
+    this.http.get(this.API_URL).subscribe((val:any) => {
+      this.dataSubject$.next(val);
+      this.data = val
     })
   }
   CreateCustomer(data: any): Observable<any> {
@@ -31,16 +39,16 @@ export class SampleserviceService {
     return this.http.delete(`${this.API_URL}/${id}`)
   }
   getRowDetails(id: any) {
+   
     return this.http.get(`${this.API_URL}/${id}`)
   }
   login(data: any): Observable<any> {
     return this.http.post('https://reqres.in/api/login', data)
   }
 
-  //-------------------------------------shopping data.json-------------------------------------------------------
-
-  getProductDetails() {
-    return this.http.get(this.shoppingUrl)
+  
+  getProductDetails():Observable<shopping[]> {
+    return this.http.get<shopping[]>(this.shoppingUrl)
   }
   update_wishlist(data: any) {
     const newdata = {
@@ -53,5 +61,12 @@ export class SampleserviceService {
   searchItem(value: any) {
     this.dataSubject$.next(this.data.filter((details: any) => details.itemname.toLowerCase().includes(value.toLowerCase())))
   }
+
+
+  
+getGroceryDetails():Observable<shopping[]>{
+  return this.http.get<shopping[]>(this.groceryUrl)
+}
+
 
 }
