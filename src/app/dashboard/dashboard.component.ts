@@ -3,6 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable, of, Subject, Subscription, takeUntil } from 'rxjs';
 import { AddcustomerComponent } from '../addcustomer/addcustomer.component';
+import { customer } from '../model';
 import { SampleserviceService } from '../sampleservice.service';
 
 export interface PeriodicElement {
@@ -11,12 +12,7 @@ export interface PeriodicElement {
   cost: number;
   shippingAddress: string;
 }
-// const ELEMENT_DATA: PeriodicElement[] = [
-//   {position: 1, itemname: 'Bag', cost: 1300, shippingAddress: 'HSR Layout'},
-//   {position: 2, itemname: 'Watch', cost: 460, shippingAddress: 'HSR Layout'},
-//   {position: 3, itemname: 'Shoes', cost: 1800, shippingAddress: 'HSR Layout'},
-//   {position: 4, itemname: 'Laptop', cost: 99000, shippingAddress: 'HSR Layout'},
-// ];
+
 
 @Component({
   selector: 'app-dashboard',
@@ -26,7 +22,7 @@ export interface PeriodicElement {
 export class DashboardComponent implements OnInit, OnDestroy {
 
   displayedColumns: string[] = ['position', 'itemname', 'cost', 'shippingAddress', 'menu', 'wish'];
-  dataSource: Observable<any> = of([{}]);
+  dataSource: Observable<customer[]> = of([]);
   kill$ = new Subject<boolean>
 
 

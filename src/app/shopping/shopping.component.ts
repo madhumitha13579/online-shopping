@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { filter, map, Observable, of, Subject, takeUntil } from 'rxjs';
+import {  shopping } from '../model';
 import { SampleserviceService } from '../sampleservice.service';
 
 @Component({
@@ -10,58 +11,63 @@ import { SampleserviceService } from '../sampleservice.service';
 })
 export class ShoppingComponent implements OnInit {
 
-  cards: any
-  items: any
-
-
+  cards: Observable<shopping[]>=of([])
+  items: Observable<shopping[]>=of([])
+  onDestroy$ = new Subject<boolean>
+  
 
   constructor(private serv: SampleserviceService, private router: Router) { }
 
+
   ngOnInit(): void {
-    this.serv.getProductDetails().subscribe(details => {
-      this.cards = details
+    this.router.events.pipe(filter(event => event instanceof NavigationStart)).subscribe((currentRoute: any) => {
 
 
-
-    })
-
-
+      if (currentRoute.url.includes('clothes')) {
+        this.cards=this.serv.getProductDetails()
 
 
-  }
-
-
-  out() {
-    this.router.navigate(['/login'])
-    localStorage.clear()
-  }
-  home() {
-    this.router.navigate(['/dashboard'])
-  }
-  shop() {
-    this.router.navigate(['/shopping'])
-  }
-
-  wish() {
-    this.router.navigate(['/wishlist'])
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
+        else if (currentRoute.url.includes('grocery')) {
+          this.items=this.serv.getGroceryDetails()
   
-}
+  
+          }
+      } )
+      }
+    }
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
